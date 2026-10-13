@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>품사 캐처!</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main class="game">
+        <header>
+            <p class="sub-title">KOREAN GRAMMAR GAME</p>
+            <h1>🌷 품사 캐처!</h1>
+            <p>떨어지는 단어를 알맞은 상자에 넣어 봐!</p>
+        </header>
+
+        <section class="scoreboard">
+            <div class="stat">
+                <span>점수</span>
+                <strong id="score">0</strong>
+            </div>
+            <div class="stat">
+                <span>남은 하트</span>
+                <strong id="lives">❤️❤️❤️</strong>
+            </div>
+            <div class="stat">
+                <span>최고 점수</span>
+                <strong id="best">0</strong>
+            </div>
+        </section>
+
+        <section id="arena">
+            <div id="notice">
+                <h2>준비됐어? ✨</h2>
+                <p>단어를 알맞은 품사 상자로 옮겨 봐!</p>
+            </div>
+        </section>
+
+        <section class="baskets">
+            <button class="basket verb" data-type="verb">
+                🏃 동사 상자
+                <span>움직임이나 작용</span>
+            </button>
+            <button class="basket adjective" data-type="adjective">
+                🌸 형용사 상자
+                <span>성질이나 상태</span>
+            </button>
+        </section>
+
+        <p id="feedback" aria-live="polite">
+            단어를 누른 다음 상자를 눌러도 돼!
+        </p>
+
+        <button id="start">게임 시작!</button>
+
+        <p class="guide">
+            단어를 드래그하거나, 단어와 상자를 차례로 눌러 줘.
+            틀리거나 땅에 떨어뜨리면 하트가 줄어들어!
+        </p>
+    </main>
+
+    <script src="javascript.js"></script>
+</body>
+</html>

@@ -1,0 +1,249 @@
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    padding: 20px 12px;
+    font-family: "Malgun Gothic", sans-serif;
+    color: #514765;
+    background: linear-gradient(140deg, #fff0f6, #eeeaff, #e1f6ff);
+}
+
+.game {
+    max-width: 650px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+header h1 {
+    margin: 8px 0;
+    font-size: clamp(28px, 6vw, 40px);
+}
+
+header p {
+    color: #8b819f;
+}
+
+.sub-title {
+    font-size: 11px;
+    letter-spacing: 3px;
+    font-weight: bold;
+    color: #a28cda;
+}
+
+.scoreboard {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin: 22px 0 12px;
+}
+
+.stat {
+    padding: 12px 4px;
+    background: #ffffffd9;
+    border: 2px solid white;
+    border-radius: 17px;
+    box-shadow: 0 5px 14px #bba9d522;
+}
+
+.stat span,
+.stat strong {
+    display: block;
+}
+
+.stat span {
+    font-size: 12px;
+    color: #9388a5;
+}
+
+.stat strong {
+    margin-top: 5px;
+    font-size: 20px;
+}
+
+#lives {
+    font-size: 16px;
+    white-space: nowrap;
+}
+
+#arena {
+    position: relative;
+    height: 340px;
+    overflow: hidden;
+    border: 3px solid white;
+    border-radius: 24px;
+    background:
+        radial-gradient(circle at 15% 20%, #ffffffaa 0 3px, transparent 4px),
+        radial-gradient(circle at 80% 35%, #ffffffaa 0 4px, transparent 5px),
+        linear-gradient(#e5f5ff, #f9f0ff);
+    box-shadow: 0 8px 25px #b5a1d522;
+}
+
+#notice {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+    pointer-events: none;
+}
+
+#notice h2 {
+    margin: 0 0 8px;
+}
+
+#notice p {
+    font-size: 13px;
+    color: #8b819f;
+}
+
+.word {
+    position: absolute;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 78px;
+    min-height: 44px;
+    padding: 9px 13px;
+    border: 2px solid white;
+    border-radius: 16px;
+    box-shadow: 0 4px 0 #c8b8dd66;
+    font-size: 16px;
+    font-weight: bold;
+    white-space: nowrap;
+    cursor: grab;
+    user-select: none;
+    touch-action: none;
+    animation: spawn 0.2s ease-out;
+}
+
+.word.selected {
+    outline: 3px solid #8870d8;
+    transform: scale(1.1);
+}
+
+.word.dragging {
+    z-index: 10;
+    cursor: grabbing;
+    box-shadow: 0 8px 20px #8070a955;
+}
+
+.baskets {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 14px;
+}
+
+.basket {
+    min-height: 100px;
+    padding: 12px 5px;
+    border: 3px dashed white;
+    border-radius: 20px;
+    font-size: 19px;
+    font-weight: bold;
+    color: #514765;
+    cursor: pointer;
+    transition: transform 0.15s, filter 0.15s;
+}
+
+.basket span {
+    display: block;
+    margin-top: 7px;
+    font-size: 11px;
+    font-weight: normal;
+}
+
+.verb {
+    background: #cdeaff;
+}
+
+.adjective {
+    background: #ffd9e9;
+}
+
+.basket:hover,
+.basket:focus-visible {
+    transform: translateY(-3px);
+    filter: brightness(0.97);
+}
+
+.basket:active {
+    transform: scale(0.97);
+}
+
+#feedback {
+    min-height: 22px;
+    font-size: 13px;
+    font-weight: bold;
+    color: #8170bc;
+}
+
+#start {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 17px;
+    background: #b5a0ef;
+    color: white;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 5px 0 #9882d3;
+}
+
+#start:active {
+    transform: translateY(3px);
+    box-shadow: none;
+}
+
+.guide {
+    font-size: 12px;
+    line-height: 1.7;
+    color: #8b819f;
+}
+
+@keyframes spawn {
+    from {
+        opacity: 0;
+        scale: 0.6;
+    }
+    to {
+        opacity: 1;
+        scale: 1;
+    }
+}
+
+@keyframes pop {
+    to {
+        opacity: 0;
+        scale: 1.4;
+    }
+}
+
+@media (max-width: 400px) {
+    #arena {
+        height: 310px;
+    }
+
+    .basket {
+        font-size: 16px;
+    }
+
+    .stat strong {
+        font-size: 17px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
+}
