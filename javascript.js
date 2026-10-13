@@ -25,16 +25,38 @@ const words = [
     { word: "노래했다", base: "노래하다", type: "verb" },
     { word: "작아서", base: "작다", type: "adjective" },
     { word: "빠르다", base: "빠르다", type: "adjective" },
-    { word: "자고", base: "자다", type: "verb" }
+    { word: "자고", base: "자다", type: "verb" },
+    { word: "달렸다", base: "달리다", type: "verb" },
+    { word: "먹으며", base: "먹다", type: "verb" },
+    { word: "던졌다", base: "던지다", type: "verb" },
+    { word: "웃는다", base: "웃다", type: "verb" },
+    { word: "씻고", base: "씻다", type: "verb" },
+    { word: "배웠다", base: "배우다", type: "verb" },
+    { word: "그리며", base: "그리다", type: "verb" },
+    { word: "걸었다", base: "걷다", type: "verb" },
+    { word: "아름답다", base: "아름답다", type: "adjective" },
+    { word: "차가운", base: "차갑다", type: "adjective" },
+    { word: "길어서", base: "길다", type: "adjective" },
+    { word: "귀엽다", base: "귀엽다", type: "adjective" },
+    { word: "밝은", base: "밝다", type: "adjective" },
+    { word: "슬프다", base: "슬프다", type: "adjective" },
+    { word: "무서운", base: "무섭다", type: "adjective" },
+    { word: "깨끗하다", base: "깨끗하다", type: "adjective" }
 ];
 
 let score = 0;
 let lives = 3;
 let best = Number(localStorage.getItem("pastelBest")) || 0;
+
 let playing = false;
 let fallTimer = null;
 let spawnTimer = null;
 let drag = null;
+
+let startTime = 0;
+let lastSpawnTime = 0;
+let lastWord = "";
+let spawnTimes = [];
 
 bestText.textContent = best;
 
@@ -55,6 +77,11 @@ function startGame() {
     playing = true;
     drag = null;
 
+    startTime = Date.now();
+    lastSpawnTime = 0;
+    lastWord = "";
+    spawnTimes = [];
+
     updateStats();
 
     notice.style.display = "none";
@@ -65,13 +92,46 @@ function startGame() {
     createWord();
 
     fallTimer = setInterval(moveWords, 30);
-    spawnTimer = setInterval(createWord, 1250);
+
+    // 생성 간격을 계속 확인
+    spawnTimer = setInterval(() => {
+        if (!playing) return;
+
+        const elapsed = (Date.now() - startTime) / 1000;
+
+        // 시작 1.8초 → 점점 빨라져 최소 0.5초
+        const interval = Math.max(500, 1800 - elapsed * 15);
+
+        if (Date.now() - lastSpawnTime >= interval) {
+            createWord();
+        }
+    }, 100);
 }
 
+// 단어 생성
 function createWord() {
     if (!playing) return;
 
-    const item = words[Math.floor(Math.random() * words.length)];
+    const now = Date.now();
+
+    // 최근 5초간 생성된 단어 기록만 유지
+    spawnTimes = spawnTimes.filter(time => now - time < 5000);
+
+    // 5초 동안 최대 7개
+    if (spawnTimes.length >= 7) return;
+
+    // 직전 단어와 다른 단어 선택
+    let choices = words.filter(item => item.word !== lastWord);
+
+    // 단어가 하나뿐인 경우에도 오류가 나지 않게 처리
+    if (choices.length === 0) choices = words;
+
+    const item = choices[Math.floor(Math.random() * choices.length)];
+
+    lastWord = item.word;
+    lastSpawnTime = now;
+    spawnTimes.push(now);
+
     const el = document.createElement("div");
 
     el.className = "word";
@@ -92,7 +152,6 @@ function createWord() {
 
         drag = {
             element: el,
-            pointerId: event.pointerId,
             startX: event.clientX,
             startY: event.clientY,
             startLeft: el.offsetLeft,
@@ -104,6 +163,7 @@ function createWord() {
         el.setPointerCapture(event.pointerId);
     });
 
+    // 드래그 중
     el.addEventListener("pointermove", event => {
         if (!drag || drag.element !== el) return;
 
@@ -130,11 +190,11 @@ function createWord() {
         ) + "px";
     });
 
+    // 드래그 종료
     el.addEventListener("pointerup", event => {
         if (!drag || drag.element !== el) return;
 
         const wasDragged = drag.moved;
-
         el.classList.remove("dragging");
 
         if (wasDragged) {
@@ -165,6 +225,7 @@ function createWord() {
     arena.appendChild(el);
 }
 
+// 정답 판정
 function sortWord(el, chosenType) {
     if (!playing || !el.isConnected) return;
 
@@ -174,7 +235,7 @@ function sortWord(el, chosenType) {
 
     if (correct) {
         score += 3;
-        feedback.textContent = `정답! ${word} → ${base} (+10점) ✨`;
+        feedback.textContent = `정답! ${word} → ${base} (+3점)`;
 
         if (score > best) {
             best = score;
@@ -183,23 +244,27 @@ function sortWord(el, chosenType) {
         }
     } else {
         feedback.textContent = `오답! ${word}의 기본형은 ${base}야.`;
+        el.remove();
         loseLife();
+        return;
     }
 
     el.remove();
     updateStats();
 }
 
+// 시간이 지날수록 낙하 속도 증가
 function moveWords() {
     if (!playing) return;
 
+    const elapsed = (Date.now() - startTime) / 1000;
+    const speed = Math.min(1 + elapsed * 0.025, 3.5);
+
     arena.querySelectorAll(".word").forEach(el => {
-        // 잡고 있는 단어는 떨어지지 않음
+        if (!playing) return;
         if (drag && drag.element === el) return;
 
         const top = parseFloat(el.style.top) || 0;
-        const speed = 1;
-
         el.style.top = top + speed + "px";
 
         if (top >= arena.clientHeight - el.offsetHeight) {
@@ -221,6 +286,7 @@ function loseLife() {
     }
 }
 
+// 게임 종료
 function gameOver() {
     playing = false;
 
@@ -233,7 +299,7 @@ function gameOver() {
 
     notice.style.display = "flex";
     notice.innerHTML = `
-        <h2>게임 오버! 💗</h2>
+        <h2>게임 오버!</h2>
         <p>최종 점수: ${score}점</p>
         <p>최고 점수: ${best}점</p>
     `;
@@ -246,4 +312,3 @@ function gameOver() {
 startBtn.addEventListener("click", startGame);
 
 updateStats();
-
