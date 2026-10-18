@@ -11,7 +11,7 @@ const startBtn = document.getElementById("start");
 
 
 const words = [
-    // 동사 60개
+    // 동사
     { word: "먹다", type: "verb" },
     { word: "마시다", type: "verb" },
     { word: "달리다", type: "verb" },
@@ -72,12 +72,13 @@ const words = [
     { word: "끝나다", type: "verb" },
     { word: "움직이다", type: "verb" },
     { word: "멈추다", type: "verb" },
+    { word: "잘생기다", type: "verb" },
+    { word: "졸리다", type: "verb" },
 
-    // 형용사 60개
+    // 형용사
     { word: "예쁘다", type: "adjective" },
     { word: "아름답다", type: "adjective" },
     { word: "귀엽다", type: "adjective" },
-    { word: "잘생기다", type: "adjective" },
     { word: "멋있다", type: "adjective" },
     { word: "크다", type: "adjective" },
     { word: "작다", type: "adjective" },
@@ -120,7 +121,6 @@ const words = [
     { word: "아프다", type: "adjective" },
     { word: "건강하다", type: "adjective" },
     { word: "피곤하다", type: "adjective" },
-    { word: "졸리다", type: "adjective" },
     { word: "조용하다", type: "adjective" },
     { word: "시끄럽다", type: "adjective" },
     { word: "깨끗하다", type: "adjective" },
