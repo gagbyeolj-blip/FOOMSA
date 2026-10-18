@@ -20,7 +20,7 @@ const words = [
     { word: "웃다", type: "verb" },
     { word: "울다", type: "verb" },
     { word: "읽다", type: "verb" },
-    { word: "쓰다", type: "verb" },
+    //{ word: "쓰다", type: "verb" },
     { word: "듣다", type: "verb" },
     { word: "보다", type: "verb" },
     { word: "말하다", type: "verb" },
@@ -72,15 +72,14 @@ const words = [
     { word: "끝나다", type: "verb" },
     { word: "움직이다", type: "verb" },
     { word: "멈추다", type: "verb" },
-    { word: "잘생기다", type: "verb" },
-    { word: "졸리다", type: "verb" },
-
+    { word: "잘생기다", type: "verb" }, 
+    
     // 형용사
     { word: "예쁘다", type: "adjective" },
     { word: "아름답다", type: "adjective" },
     { word: "귀엽다", type: "adjective" },
     { word: "멋있다", type: "adjective" },
-    { word: "크다", type: "adjective" },
+    //{ word: "크다", type: "adjective" },
     { word: "작다", type: "adjective" },
     { word: "높다", type: "adjective" },
     { word: "낮다", type: "adjective" },
@@ -134,7 +133,13 @@ const words = [
     { word: "게으르다", type: "adjective" },
     { word: "비슷하다", type: "adjective" },
     { word: "다르다", type: "adjective" },
-    { word: "필요하다", type: "adjective" }
+    { word: "필요하다", type: "adjective" }, 
+
+    //복수 정답
+    { word: "크다", type: ["verb", "adjective"] },
+    { word: "쓰다", type: ["verb", "adjective"] },
+    { word: "졸리다", type: ["verb", "adjective"] },
+
 ];
 
 let score = 0;
