@@ -136,9 +136,9 @@ const words = [
     { word: "필요하다", type: "adjective" }, 
 
     //복수 정답
-    { word: "크다", type: ["verb", "adjective"] },
-    { word: "쓰다", type: ["verb", "adjective"] },
-    { word: "졸리다", type: ["verb", "adjective"] },
+  //  { word: "크다", type: ["verb", "adjective"] },
+  //  { word: "쓰다", type: ["verb", "adjective"] },
+   // { word: "졸리다", type: ["verb", "adjective"] },
 
 ];
 
